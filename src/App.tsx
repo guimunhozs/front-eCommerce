@@ -36,7 +36,8 @@ const App: React.FC = () => {
  
   useEffect(() => {
     const getProducts = () =>{
-      return axios.get('http://localhost:8000/product',
+      console.log(process)
+      return axios.get(process.env.REACT_APP_API_URL+'/product',
         { params: 
           {
             name: filter,
@@ -64,7 +65,7 @@ const App: React.FC = () => {
         <h2 className="titleSearch"> { filter? filter : 'Lista de produtos'  } </h2>
       </div>
       <article>
-          <h3>{total} { products.length? 'PRODUTO ENCONTRADO' : 'PRODUTOS ENCONTRADOS' }</h3>
+          <h3>{total} { products.length<=1? 'PRODUTO ENCONTRADO' : 'PRODUTOS ENCONTRADOS' }</h3>
           { showProducts() }
        
         <div className="pagination">
