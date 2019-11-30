@@ -1,64 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import './App.css';
+import axios from 'axios';
 
 import Product from './components/product/product';
-
-const images = [
-  'https://www.laroya.com.br/media/catalog/product/cache/1/image/540x540/9df78eab33525d08d6e5fb8d27136e95/l/e/lencol-avulso-berco-americano-papi-2915_9.jpg',
-  'https://a-static.mlcdn.com.br/618x463/lencol-avulso-casal-100-algodao-200-fios-sem-elastico-premium-estamparia/casadasogra/27-38-08verdeclaro/98d8675f6db171cdc884cfdc4a59bc63.jpg',
-  'https://www.romanceenxovais.com.br/octopus/design/images/92/products/b/avulso%20prata.jpg',
-  'https://casadasograenxovais.fbitsstatic.net/img/p/lencol-avulso-casal-100-algodao-200-fios-sem-elastico-premium-68907/266232-3.jpg?w=500&h=500&v=no-change'
-];
-
-const product = {
-    images,
-    name: 'Kit de cama 210 fios',
-    category: 'Classic 1 - Solteiro Extra',
-    price: 298.00,
-    discount: 10
-};
+import Search from './components/search/search';
+import Pagination from './components/pagination/pagination';
 
 const App: React.FC = () => {
+
+  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState('');
+  const [limit, setLimit] = useState(5);
+  const [total, setTotal] = useState();
+  const [products, setProducts] = useState([]);
+
+  const showProducts = () => {
+    if(products.length) {
+      return products.map((item, index) => <Product key={index} product={item}/>);
+    } else {
+      return <p>Nennhum produto encontrado</p>;
+    }       
+  }
+
+  const handleTextSearch = (filter: string) => {
+    setFilter(filter);
+  }
+
+  const handlerLimit = (value: string) => {
+    setLimit(+value);
+  }
+
+  const handlerPage = (value: string) => {
+    setPage(+value);
+  }
+ 
+  useEffect(() => {
+    const getProducts = () =>{
+      return axios.get('http://localhost:8000/product',
+        { params: 
+          {
+            name: filter,
+            page: page,
+            limit: limit
+          }
+        }
+      );
+    }
+
+
+    getProducts().then(({ data }) => {
+      setProducts(data.products);
+      setTotal(data.total);
+    });
+  }, [filter, limit, page]);
+
   return (
     <div className="App">
       <header>
         <h1 className="siteTitle">mmartan</h1>
-        <div className="searchSection">
-          <i id="iconSearch" className="fa fa-search iconSearch"></i>
-          <input className="inputSearch" type="text" placeholder="Lençol avulso" />
-          <button id="iconCancel" className="fa fa-times-circle iconSearch" />
-        </div>
+        <Search filter={filter} handlePress={(text: string) => handleTextSearch(text)}/>
       </header>
       <div className="titleBox">
-        <h2 className="titleSearch">Lençol avulso</h2>
+        <h2 className="titleSearch"> { filter? filter : 'Lista de produtos'  } </h2>
       </div>
       <article>
-          <h3>200 PRODUTOS ENCONTRADOS</h3>
-          <Product product={product}/>
+          <h3>{total} { products.length? 'PRODUTO ENCONTRADO' : 'PRODUTOS ENCONTRADOS' }</h3>
+          { showProducts() }
        
         <div className="pagination">
-          <select className="productQuantity">
-            <option value="16"> 16 produtos por páginas</option>
-            <option value="32"> 32 produtos por páginas</option>
-            <option value="50"> 50 produtos por páginas</option>
+          <select className="productQuantity" onChange={ e => handlerLimit(e.target.value)}>
+            <option value="5"> 5 produtos por páginas</option>
+            <option value="10"> 10 produtos por páginas</option>
           </select>
-
-          <div className="productPage">
-            <p>
-              <a>|&lt; </a>
-              <a>&lt;</a>
-
-              <a>1</a>
-              <a>2</a>
-              <a>3</a>
-              <a>4</a>
-
-              <a>&gt;</a>
-              <a>&gt;|</a>
-            </p>
-          </div>
+          <Pagination total={total} productQuantity={limit} page={page} handleClick={ (page: number) =>  handlerPage(page.toString())} />
         </div>
-
       </article>
     </div>
   );
