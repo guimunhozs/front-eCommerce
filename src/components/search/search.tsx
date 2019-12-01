@@ -32,7 +32,7 @@ const Search = (props: props) => {
   return (
     <div className="searchSection">
       <i id="iconSearch" className="fa fa-search iconSearch"></i>
-      <input className="inputSearch" type="text" placeholder={ filter? filter : 'O que você precisa?' } onChange={e => handleTextSearch(e.target.value)} value={filter} onKeyPress={(e: any) => handleSearch(e)} />
+      <input className="inputSearch" type="text" placeholder={ filter? filter : 'Produtos' } onChange={e => handleTextSearch(e.target.value)} value={filter} onKeyPress={(e: any) => handleSearch(e)} />
       { showButtonClear() }
     </div>
   );
