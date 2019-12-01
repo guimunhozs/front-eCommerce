@@ -1,44 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Projeto loja virtual
 
-## Available Scripts
+Objetivo do projeto era criar uma listagem de produtos simulando uma [loja virtual](https://app-ecommerce-front.herokuapp.com/), com o foco de colocar em prática o conhecimento técnico e utilizar novas tecnologias como React, Node e MongoDB.
+Este projeto é o front-end e seu back-end pode ser encontrado nesse mesmo [github](https://github.com/guimunhozs/back-eCommerce).
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Índice
+- Informações técnicas
+- Requisitos
+- Instalar e Iniciar o projeto
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+## Informações técnicas
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Para deixar o site disponível, [Heroku]() foi utilizado como host para o front-end e back-end. O banco de dados, foi hospedado no [Cloud MongoDB](https://cloud.mongodb.com/). 
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Requisitos
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Dentre os requisitos necessários para rodar o projeto local, está o [NodeJS](https://nodejs.org/en/) (versão 10 +) e o [React](https://pt-br.reactjs.org/) (versão 16+). Em ambos há um tutorial no site de cada tecnologia, que terá que ser executado.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Instalar e Iniciar o projeto
+Após preparar o ambiente, precisamos clonar o projeto:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+``
+git clone https://github.com/guimunhozs/front-eCommerce.git
+``
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Para instalar todas as dependências do projeto:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+``npm install`` ou ``npm i``
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Ao finalizar, podemos executar o projeto com:
 
-## Learn More
+``npm start``
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Então abrirá uma aba 'localhost:3000'. Caso você não tenha o backend local, não será possível utilizar todas as funcionalidades, para isso, entre no [link](https://github.com/guimunhozs/back-eCommerce) e siga as intruções necessárias.
+
