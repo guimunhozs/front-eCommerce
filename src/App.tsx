@@ -24,6 +24,7 @@ const App: React.FC = () => {
 
   const handleTextSearch = (filter: string) => {
     setFilter(filter);
+    setPage(1);
   }
 
   const handlerLimit = (value: string) => {
@@ -36,7 +37,6 @@ const App: React.FC = () => {
  
   useEffect(() => {
     const getProducts = () =>{
-      console.log(process)
       return axios.get(process.env.REACT_APP_API_URL+'/product',
         { params: 
           {
