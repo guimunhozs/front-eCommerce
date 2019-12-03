@@ -13,6 +13,7 @@ export const ImageBox = styled.div`
   display: flex;
   align-items: center;
   @media (max-width: 500px) {
+    margin-top: 10px;
     display: block;
   }
 `;

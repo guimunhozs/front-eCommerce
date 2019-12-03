@@ -126,4 +126,8 @@ h3 {
   .pagination {
     display: block;
   }
+
+  .buttonPage {
+    padding: 8px;
+  }
 }

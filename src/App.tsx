@@ -10,7 +10,7 @@ const App: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState('');
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(16);
   const [total, setTotal] = useState();
   const [products, setProducts] = useState([]);
 
@@ -28,6 +28,7 @@ const App: React.FC = () => {
   }
 
   const handlerLimit = (value: string) => {
+    setPage(1);
     setLimit(+value);
   }
 
@@ -70,8 +71,8 @@ const App: React.FC = () => {
        
         <div className="pagination">
           <select className="productQuantity" onChange={ e => handlerLimit(e.target.value)}>
-            <option value="5"> 5 produtos por páginas</option>
-            <option value="10"> 10 produtos por páginas</option>
+            <option value="16"> 16 produtos por páginas</option>
+            <option value="32"> 32 produtos por páginas</option>
           </select>
           <Pagination total={total} productQuantity={limit} page={page} handleClick={ (page: number) =>  handlerPage(page.toString())} />
         </div>
