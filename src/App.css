@@ -1,4 +1,7 @@
-@font-face { font-family: "Helvetica"; src: url('./fonts/helvetica.otf');}
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/helvetica.otf");
+}
 
 header {
   display: flex;
@@ -48,17 +51,17 @@ header {
   border-top: 1px solid gray;
   border-bottom: 1px solid gray;
   margin: 10px 0;
-  background-color: #EEEDF1;
+  background-color: #eeedf1;
 }
 
-.titleSearch{
+.titleSearch {
   font-family: "Helvetica";
   padding-left: 35px;
   font-size: 30px;
   margin: 20px 0;
 }
 
-article{
+article {
   width: 75%;
   display: block;
   margin: auto;
@@ -66,7 +69,7 @@ article{
   align-items: center;
 }
 
-img{
+img {
   width: 20%;
   max-width: 100px;
   max-height: 100px;
@@ -79,7 +82,7 @@ h3 {
   display: inline-block;
 }
 
-.productInfo{
+.productInfo {
   width: 68%;
   display: flex;
   justify-content: space-between;
@@ -92,7 +95,7 @@ h3 {
   height: 35px;
 }
 
-.buttonPage{
+.buttonPage {
   background: none;
   border: none;
   color: gray;
@@ -112,14 +115,12 @@ h3 {
   margin-top: 20px;
 }
 
-
-
 @media only screen and (max-width: 500px) {
   .inputSearch {
     width: 70px;
   }
 
-  img{
+  img {
     width: 32%;
   }
 
