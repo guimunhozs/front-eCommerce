@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-import { PaginationBox } from "./pagination.css";
+import {
+  PaginationBox,
+  ButtonPage,
+  ButtonPageSelected
+} from "./pagination.css";
+
 import { pagination } from "./../../libs/calculatePages";
 
 type props = {
   limitProductPage: number;
   numberProducts: number;
   currentPage: number;
-  handleClick: any;
+  handleClick: Function;
 };
 
 const Pagination = (props: props) => {
-  const [numberPage, setNumberPage] = useState(0);
+  const [numberMaxPage, setNumberMaxPage] = useState(0);
   const [paginationConfig, setPaginationConfig] = useState({
     hasDotBefore: false,
     hasDotAfter: false,
@@ -19,69 +24,66 @@ const Pagination = (props: props) => {
   });
 
   useEffect(() => {
-    setNumberPage(
+    setNumberMaxPage(
       Math.ceil(props.numberProducts / props.limitProductPage) || 0
     );
-    setPaginationConfig(pagination(7, 10));
-    console.log(paginationConfig);
-  }, [props.numberProducts, props.currentPage, props.limitProductPage]);
-
-  const pageCalculator = (numPage: number) => {
-    if (numPage < 1) {
-      return 1;
-    } else if (numPage > numberPage) {
-      return numberPage;
-    } else {
-      return props.handleClick(numPage);
-    }
-  };
+    setPaginationConfig(pagination(props.currentPage, numberMaxPage));
+  }, [
+    props.numberProducts,
+    props.currentPage,
+    props.limitProductPage,
+    numberMaxPage
+  ]);
 
   const changePage = (page: number) => {
-    props.handleClick(page);
+    props.handleClick(
+      page >= 1 && page <= numberMaxPage ? page : props.currentPage
+    );
   };
 
   const handleNumberPagination = () => {
-    // setPaginationConfig(pagination(props.currentPage, props.totalPages));
-    // console.log(paginationConfig);
-    // const calcPages = paginationConfig.rangePagesShow;
-    // return calcPages.map((element: any, index: any) => {
-    //   if (element === "...") {
-    //     return (
-    //       <button key={index} className="buttonPage" disabled>
-    //         {element}
-    //       </button>
-    //     );
-    //   } else {
-    return (
-      <button key={1} onClick={() => changePage(1)}>
-        {1}
-      </button>
-    );
-    // }
-    // });
+    return paginationConfig.rangePagesShow.map(element => {
+      if (element === props.currentPage) {
+        return (
+          <ButtonPageSelected key={element} disabled>
+            {element}
+          </ButtonPageSelected>
+        );
+      } else {
+        return (
+          <ButtonPage key={element} onClick={() => changePage(element)}>
+            {element}
+          </ButtonPage>
+        );
+      }
+    });
+  };
+
+  const needDots = (hasDots: boolean) => {
+    return hasDots ? <ButtonPage>...</ButtonPage> : "";
   };
 
   return (
-    <div className="productPage">
+    <div>
       <PaginationBox>
-        <button
-          className="fa fa-angle-double-left buttonPage"
+        <ButtonPage
+          className="fa fa-angle-double-left"
           onClick={() => changePage(1)}
-        ></button>
-        <button
-          className="fa fa-angle-left buttonPage"
-          onClick={() => pageCalculator(props.currentPage - 1)}
-        ></button>
-
-        {handleNumberPagination()}
-
-        <button
-          className="fa fa-angle-right buttonPage"
-          onClick={() => pageCalculator(props.currentPage + 1)}
         />
-        <button
-          className="fa fa-angle-double-right buttonPage"
-          onClick={() => changePage(numberPage)}
+        <ButtonPage
+          className="fa fa-angle-left"
+          onClick={() => changePage(props.currentPage - 1)}
+        />
+        {needDots(paginationConfig.hasDotBefore)}
+        {handleNumberPagination()}
+        {needDots(paginationConfig.hasDotAfter)}
+        <ButtonPage
+          className="fa fa-angle-right"
+          onClick={() => changePage(props.currentPage + 1)}
+        />
+        <ButtonPage
+          className="fa fa-angle-double-right"
+          onClick={() => changePage(numberMaxPage)}
         />
       </PaginationBox>
     </div>
