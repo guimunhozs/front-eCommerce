@@ -28,7 +28,7 @@ const Product = (props: props) => {
       <ProductImage
         src={item}
         key={index}
-        alt={"Imagem" + index + "do produto"}
+        alt={"Imagem " + index + " do produto"}
       ></ProductImage>
     ));
   };
