@@ -1,36 +1,77 @@
-export function pagination(page:number , quant: number) { 
+export const pagination = (currentPage: number, totalPages: number) => {
+  const paginationConfig = {
+    hasDotBefore: false,
+    hasDotAfter: false,
+    rangePagesShow: [] as number[]
+  };
+  const maxRangShow = 5;
+  const minRangeShow = 3;
+  const maxRangeAround = 2;
 
-  const left = page - 2;
-  const right = page + 2;
-  const range =  [];
+  switch (true) {
+    case currentPage <= minRangeShow:
+      paginationConfig.rangePagesShow = getStartPagination(
+        totalPages,
+        maxRangShow
+      );
+      paginationConfig.hasDotAfter = totalPages > maxRangShow ? true : false;
+      break;
 
-  if((page <=3) || ((page <=5) && (quant <= 5))) {
-    const maxPage = quant<=5? quant : 5;
-    for(let i = 1; i<=maxPage; i++) {
-      range.push(i);
-    }
-    if(quant>5) {
-      range.push("...");
-    }
+    case currentPage >= totalPages - maxRangeAround && totalPages > maxRangShow:
+      paginationConfig.rangePagesShow = getEndPagination(
+        totalPages,
+        maxRangShow
+      );
+      paginationConfig.hasDotBefore = true;
+      break;
+
+    case currentPage > minRangeShow &&
+      currentPage < totalPages - maxRangeAround:
+    default:
+      paginationConfig.rangePagesShow = getMiddlePagination(
+        totalPages,
+        currentPage,
+        maxRangeAround
+      );
+      paginationConfig.hasDotBefore = true;
+      paginationConfig.hasDotAfter = true;
+      break;
   }
 
-  if((page >= (quant-2)) && (quant>5)) {
-    range.push("...");
-    for(let i = (quant-4); i<= quant; i++) {
-      range.push(i);
+  return paginationConfig;
+};
+
+function getStartPagination(totalPages: number, maxRangShow: number): number[] {
+  const startPagination = new Array<number>();
+  const maxPageShow = totalPages > maxRangShow ? maxRangShow : totalPages;
+  for (let i = 1; i <= maxPageShow; i++) {
+    startPagination.push(i);
+  }
+  return startPagination;
+}
+
+function getEndPagination(totalPages: number, maxRangShow: number): number[] {
+  const endPagination = new Array<number>();
+  const rangeLastNumbers = totalPages - (maxRangShow - 1);
+  for (let i = rangeLastNumbers; i <= totalPages; i++) {
+    endPagination.push(i);
+  }
+  return endPagination;
+}
+
+function getMiddlePagination(
+  totalPages: number,
+  currentPage: number,
+  maxRangeAround: number
+): number[] {
+  const middlePagination: number[] = [];
+  for (let i = 1; i <= totalPages; i++) {
+    if (
+      i >= currentPage - maxRangeAround &&
+      i <= currentPage + maxRangeAround
+    ) {
+      middlePagination.push(i);
     }
   }
-
-  if((page>3) && (page <= (quant-3))) {
-    const arrayPags = Array.from(Array((Math.ceil(quant || 0 ))).keys());
-    range.push("...");
-    // eslint-disable-next-line
-    arrayPags.map((index) => {
-      if((index+1) >= left && (index+1) <= right) {
-        range.push(index+1);
-      }
-    });
-    range.push("...");
-  }
-  return range;
+  return middlePagination;
 }
